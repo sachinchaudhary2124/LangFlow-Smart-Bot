@@ -1,0 +1,77 @@
+{
+  "project": {
+    "name": "Assignment-2-LangFlow-Smart-Bot",
+    "type": "LangFlow visual AI agent workflow",
+    "purpose": "General-purpose chatbot using a local LLM and Tavily web search."
+  },
+  "important_note": "This file is a workflow blueprint based on the supplied screenshots, not a native Langflow-exported flow file. Langflow's importable JSON schema can vary by version and requires the actual component configuration and IDs. Export the flow from your Langflow instance to obtain a fully importable file.",
+  "components": [
+    {
+      "id": "chat_input",
+      "display_name": "Chat Input",
+      "component_type": "ChatInput",
+      "purpose": "Receives the user's message."
+    },
+    {
+      "id": "prompt_template",
+      "display_name": "Prompt Template",
+      "component_type": "PromptTemplate",
+      "purpose": "Provides general-purpose assistant instructions.",
+      "visible_prompt_excerpt": "You are a smart, general-purpose AI assistant. Answer the user's question."
+    },
+    {
+      "id": "tavily_search",
+      "display_name": "Tavily Search API",
+      "component_type": "Tavily Search API",
+      "purpose": "Provides the FETCH_CONTENT_DATAFRAME web-search action.",
+      "credential_note": "Configure the Tavily API key in Langflow; do not store it in this file."
+    },
+    {
+      "id": "agent",
+      "display_name": "Agent",
+      "component_type": "Agent",
+      "purpose": "Processes the user input using the prompt, language model, and optional search tool.",
+      "language_model": "llama3.2:3b",
+      "model_runtime": "Ollama (as shown in screenshot)"
+    },
+    {
+      "id": "chat_output",
+      "display_name": "Chat Output",
+      "component_type": "ChatOutput",
+      "purpose": "Displays the agent's final response."
+    }
+  ],
+  "connections": [
+    {
+      "from": "prompt_template",
+      "output": "Prompt",
+      "to": "agent",
+      "input": "Agent Instructions"
+    },
+    {
+      "from": "tavily_search",
+      "output": "Toolset",
+      "to": "agent",
+      "input": "Tools"
+    },
+    {
+      "from": "chat_input",
+      "output": "Message",
+      "to": "agent",
+      "input": "Input"
+    },
+    {
+      "from": "agent",
+      "output": "Response",
+      "to": "chat_output",
+      "input": "Input"
+    }
+  ],
+  "setup_checklist": [
+    "Open the flow in your Langflow instance.",
+    "Ensure Ollama is running and the llama3.2:3b model is available.",
+    "Configure the Tavily API key securely in Langflow.",
+    "Test with questions such as 'Who is Lionel Messi?' and 'What are some recently released movies?'.",
+    "Export the actual flow from Langflow as JSON for a native, reproducible project file."
+  ]
+}
